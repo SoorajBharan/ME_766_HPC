@@ -1,5 +1,5 @@
 {
-    "lower_limit": -1.0,
-    "upper_limit": 2.0,
+    "lower_limit": -1.57079633,
+    "upper_limit": 1.57079633,
     "intervals": 1000000
 }

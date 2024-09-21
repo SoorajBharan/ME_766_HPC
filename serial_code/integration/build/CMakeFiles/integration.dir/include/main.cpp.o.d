@@ -1,5 +1,5 @@
 CMakeFiles/integration.dir/include/main.cpp.o: \
- /home/bharan/computation/tutorials/HPC/myCode/integration/include/main.cpp \
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include/main.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/12/iostream \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -146,8 +146,8 @@ CMakeFiles/integration.dir/include/main.cpp.o: \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc \
- /home/bharan/computation/tutorials/HPC/myCode/integration/include/enum_types.h \
- /home/bharan/computation/tutorials/HPC/myCode/integration/include/trapezoidal_integration.h \
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include/enum_types.h \
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include/trapezoidal_integration.h \
  /usr/include/c++/12/fstream /usr/include/c++/12/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
@@ -260,8 +260,8 @@ CMakeFiles/integration.dir/include/main.cpp.o: \
  /usr/include/nlohmann/ordered_map.hpp \
  /usr/include/nlohmann/detail/macro_unscope.hpp \
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- /home/bharan/computation/tutorials/HPC/myCode/integration/include/monte_carlo_method.h \
- /home/bharan/computation/tutorials/HPC/myCode/integration/include/random_number_generator.h \
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include/monte_carlo_method.h \
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include/random_number_generator.h \
  /usr/include/c++/12/random /usr/include/c++/12/bits/random.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/opt_random.h \
  /usr/include/c++/12/bits/random.tcc

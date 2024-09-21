@@ -13,10 +13,11 @@ using json = nlohmann::json;
 
 namespace MonteCarloInt
 {
+double pi = 3.1415926535898;
 template<typename Number>
 Number value_function(Number value)
 {
-	return (value * value * value);
+	return cos(value);
 }
 
 template<class Number>
@@ -42,6 +43,7 @@ public:
 
 	RandomValueGeneratorType generator_type;
 	void read_from_json(const std::string& filename);
+	void set_parameters();
 	void max_min();
 	void solve();
 	void print_input() const;
@@ -90,6 +92,18 @@ void MonteCarloIntegration<Number>::read_from_json(const std::string& filename)
 }
 
 /*
+ * Following function is used to hard code the input parameters in the problem
+ */
+template<class Number>
+void MonteCarloIntegration<Number>::set_parameters()
+{
+	lower_limit = -1 * pi / 2.0;
+	upper_limit = pi / 2.0;
+	intervals = 1e6;
+	step_size = (upper_limit - lower_limit)/ intervals;
+}
+
+/*
  *	sum = \frac{h}{2} \left( f(x_0) + f(x_n) + 2*\sum_{i=1}^{n-1} f(x_i) \right)
  */
 template<class Number>
@@ -131,7 +145,10 @@ void MonteCarloIntegration<Number>::solve()
 template<class Number>
 void MonteCarloIntegration<Number>::print_input() const
 {
-	std::cout << " \t\t INPUT PARAMETERS " << std::endl;
+	std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+	std::cout << "% \t\t MONTE-CARLO INTEGRATION METHOD \t\t%" << std::endl;
+	std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+	std::cout << " \t\t\t INPUT PARAMETERS " << std::endl;
 	std::cout << "Upper Limit : " << upper_limit << std::endl;
 	std::cout << "Lower limit : " << lower_limit << std::endl;
 	std::cout << "Intervals : " << intervals << std::endl;
@@ -145,7 +162,7 @@ void MonteCarloIntegration<Number>::print_input() const
 template<class Number>
 void MonteCarloIntegration<Number>::print_results() const
 {
-	std::cout << "\t\t OUTPUT PARAMETERS" << std::endl;
+	std::cout << "\t\t\t OUTPUT PARAMETERS" << std::endl;
 	std::cout << "Minimum function value : " << minimum_value << std::endl;
 	std::cout << "Maximum function value : " << maximum_value << std::endl;
 	std::cout << "Number of points inside the curve and above xaxis : " << in_points << std::endl;

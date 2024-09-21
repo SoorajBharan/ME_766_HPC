@@ -1,7 +1,7 @@
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/integration.dir
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/edit_cache.dir
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/rebuild_cache.dir
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/list_install_components.dir
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/install.dir
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/install/local.dir
-/home/bharan/computation/tutorials/HPC/myCode/integration/build/CMakeFiles/install/strip.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/integration.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/edit_cache.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/rebuild_cache.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/list_install_components.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/install.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/install/local.dir
+/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/CMakeFiles/install/strip.dir

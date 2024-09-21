@@ -1,8 +1,8 @@
-# Install script for directory: /home/bharan/computation/tutorials/HPC/myCode/integration
+# Install script for directory: /home/bharan/computation/solvers/ME_766_HPC/serial_code/integration
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/bharan/computation/solvers/HPC/myCode")
+  set(CMAKE_INSTALL_PREFIX "/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -49,7 +49,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/integration"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/bharan/computation/tutorials/HPC/myCode/integration/build/bin/integration")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/bin/integration")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/integration" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/integration")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -59,7 +59,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES "/home/bharan/computation/tutorials/HPC/myCode/integration/include/trapezoidal_integration.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES "/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include/trapezoidal_integration.h")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -77,6 +77,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "/home/bharan/computation/tutorials/HPC/myCode/integration/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

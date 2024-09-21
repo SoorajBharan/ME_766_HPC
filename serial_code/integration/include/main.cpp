@@ -7,21 +7,32 @@
 int main(int argc, char ** argv)
 {
 	// Check if the user provided the input file directory
-	if (argc != 2) {
-		std::cerr << "Usage: " << argv[0] << " <input_file_directory>" << std::endl;
-		return 1;
-	}
+	/*if (argc != 2) {*/
+	/*	std::cerr << "Usage: " << argv[0] << " <input_file_directory>" << std::endl;*/
+	/*	return 1;*/
+	/*}*/
 
 	// Construct the full path to the input file
-	std::string input_dir = argv[1];
-	std::string input_file = input_dir + "/input.json";
+	/*std::string input_dir = argv[1];*/
+	/*std::string input_file = input_dir;*/
 
-	MonteCarloInt::MonteCarloIntegration<double> integrator;
-	integrator.read_from_json(input_file);
-	integrator.print_input();
+	/*MonteCarloInt::MonteCarloIntegration<double> integrator;*/
+	TrapezoidalInt::TrapezoidalIntegration<double> integrator_t;
+	/*integrator.read_from_json(input_file);*/
+	integrator_t.set_parameters();
+	integrator_t.print_input();
 	srand(static_cast<unsigned int>(time(0)));
-	integrator.solve();
-	integrator.print_results();
+	integrator_t.solve();
+	integrator_t.print_results();
+
+	MonteCarloInt::MonteCarloIntegration<double> integrator_m;
+	/*integrator.read_from_json(input_file);*/
+	integrator_m.set_parameters();
+	integrator_m.max_min();
+	integrator_m.print_input();
+	srand(static_cast<unsigned int>(time(0)));
+	integrator_m.solve();
+	integrator_m.print_results();
 
 	return 0;
 }
