@@ -3,9 +3,11 @@
 #include "trapezoidal_integration.h"
 #include "monte_carlo_method.h"
 #include "random_number_generator.h"
+#include <omp.h>
 
 int main(int argc, char ** argv)
 {
+	omp_set_num_threads(4);
 	// Check if the user provided the input file directory
 	/*if (argc != 2) {*/
 	/*	std::cerr << "Usage: " << argv[0] << " <input_file_directory>" << std::endl;*/
@@ -16,7 +18,6 @@ int main(int argc, char ** argv)
 	/*std::string input_dir = argv[1];*/
 	/*std::string input_file = input_dir;*/
 
-	/*MonteCarloInt::MonteCarloIntegration<double> integrator;*/
 	/*TrapezoidalInt::TrapezoidalIntegration<double> integrator_t;*/
 	/*integrator.read_from_json(input_file);*/
 	/*integrator_t.set_parameters();*/
