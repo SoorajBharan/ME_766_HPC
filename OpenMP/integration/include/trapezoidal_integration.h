@@ -29,11 +29,14 @@ private:
 	Number step_size;
 
 public:
-	TrapezoidalIntegration()
+	TrapezoidalIntegration(double x_min, double x_max, int steps)
 	: lower_limit(0),
 	upper_limit(1),
 	intervals(100)
 {
+		lower_limit = x_min;
+		upper_limit = x_max;
+		intervals = steps;
 		step_size = (upper_limit - lower_limit) / intervals;
 	}
 
@@ -42,6 +45,7 @@ public:
 	void solve();
 	void print_input() const;
 	void print_results() const;
+	void run();
 };
 /*
  * This function reads in values for class member varible from input.json file
@@ -75,7 +79,7 @@ void TrapezoidalIntegration<Number>::set_parameters()
 {
 	lower_limit = -1 * pi / 2.0;
 	upper_limit = pi / 2.0;
-	intervals = 1e6;
+	intervals = 1e8;
 	step_size = (upper_limit - lower_limit)/ intervals;
 }
 
@@ -86,10 +90,22 @@ template<class Number>
 void TrapezoidalIntegration<Number>::solve()
 {
 	sum = ( value_function(upper_limit) + value_function(lower_limit));
-	#pragma omp parallel for
+	#pragma omp parallel for reduction (+:sum)
 	for(uint i = 1; i < intervals-1; ++i)
+	{
+		/*int thread_id = omp_get_thread_num();*/
+		/*std::cout << "Executed from : " << thread_id << std::endl;*/
 		sum+=2 * value_function(lower_limit + (i * step_size));
+	}
 	sum *= step_size / 2.0;
+}
+
+template<class Number>
+void TrapezoidalIntegration<Number>::run()
+{
+	print_input();
+	solve();
+	print_results();
 }
 
 /*
@@ -112,6 +128,12 @@ template<class Number>
 void TrapezoidalIntegration<Number>::print_results() const
 {
 	std::cout << "\t\t\t OUTPUT PARAMETERS" << std::endl;
+	#pragma omp parallel
+	{
+		int thread_id = omp_get_thread_num();
+		if(thread_id == 0)
+			std::cout << "Number of processors : " << omp_get_num_threads() << std::endl;
+	}
 	std::cout << "Integral value : " << sum << std::endl;
 }
 } // end of naemspace TrapezoidalInt

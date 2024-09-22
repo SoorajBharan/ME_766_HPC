@@ -10,6 +10,7 @@ using json = nlohmann::json;
 
 namespace TrapezoidalInt
 {
+
 double pi = 3.1415926535898;
 
 template<typename Number>
@@ -24,15 +25,18 @@ private:
 	Number upper_limit;
 	Number lower_limit;
 	Number sum;
-	int intervals;
+	long int intervals;
 	Number step_size;
 
 public:
-	TrapezoidalIntegration()
+	TrapezoidalIntegration(double x_min, double x_max, int steps)
 	: lower_limit(0),
 	upper_limit(1),
 	intervals(100)
 {
+		lower_limit = x_min;
+		upper_limit = x_max;
+		intervals = steps;
 		step_size = (upper_limit - lower_limit) / intervals;
 	}
 
@@ -41,6 +45,7 @@ public:
 	void solve();
 	void print_input() const;
 	void print_results() const;
+	void run();
 };
 /*
  * This function reads in values for class member varible from input.json file
@@ -74,7 +79,7 @@ void TrapezoidalIntegration<Number>::set_parameters()
 {
 	lower_limit = -1 * pi / 2.0;
 	upper_limit = pi / 2.0;
-	intervals = 1e6;
+	intervals = 1e9;
 	step_size = (upper_limit - lower_limit)/ intervals;
 }
 
@@ -88,6 +93,15 @@ void TrapezoidalIntegration<Number>::solve()
 	for(uint i = 1; i < intervals-1; ++i)
 		sum+=2 * value_function(lower_limit + (i * step_size));
 	sum *= step_size / 2.0;
+}
+
+template<class Number>
+void TrapezoidalIntegration<Number>::run()
+{
+	/*set_parameters();*/
+	print_input();
+	solve();
+	print_results();
 }
 
 /*

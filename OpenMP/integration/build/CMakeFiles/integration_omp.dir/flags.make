@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include
 
-CXX_FLAGS =  -pg -std=gnu++11 -fopenmp
+CXX_FLAGS = -std=gnu++11 -fopenmp
 

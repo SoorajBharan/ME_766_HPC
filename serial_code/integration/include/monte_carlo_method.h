@@ -32,12 +32,15 @@ private:
 	int in_points,tot_points;
 
 public:
-	MonteCarloIntegration()
+	MonteCarloIntegration(double x_min, double x_max, int steps)
 	: lower_limit(0),
 	upper_limit(1),
 	intervals(100),
 	generator_type(RandomValueGeneratorType::RandomFunction)
 	{
+		lower_limit = x_min;
+		upper_limit = x_max;
+		intervals = steps;
 		step_size = (upper_limit - lower_limit) / intervals;
 	}
 
@@ -48,6 +51,7 @@ public:
 	void solve();
 	void print_input() const;
 	void print_results() const;
+	void run();
 };
 
 template<class Number>
@@ -99,7 +103,7 @@ void MonteCarloIntegration<Number>::set_parameters()
 {
 	lower_limit = -1 * pi / 2.0;
 	upper_limit = pi / 2.0;
-	intervals = 1e6;
+	intervals = 1e5;
 	step_size = (upper_limit - lower_limit)/ intervals;
 }
 
@@ -140,6 +144,17 @@ void MonteCarloIntegration<Number>::solve()
 
 	}
 	sum = tot_sum * in_points / tot_points;	
+}
+
+template<class Number>
+void MonteCarloIntegration<Number>::run()
+{
+	/*set_parameters();*/
+	max_min();
+	print_input();
+	srand(static_cast<unsigned int>(time(0)));
+	solve();
+	print_results();
 }
 
 template<class Number>

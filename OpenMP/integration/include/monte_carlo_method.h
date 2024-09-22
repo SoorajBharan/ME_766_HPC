@@ -33,12 +33,15 @@ private:
 	int in_points,tot_points;
 
 public:
-	MonteCarloIntegration()
+	MonteCarloIntegration(double x_min, double x_max, int steps)
 	: lower_limit(0),
 	upper_limit(1),
 	intervals(100),
 	generator_type(RandomValueGeneratorType::RandomFunction)
 	{
+		lower_limit = x_min;
+		upper_limit = x_max;
+		intervals = steps;
 		step_size = (upper_limit - lower_limit) / intervals;
 	}
 
@@ -49,6 +52,7 @@ public:
 	void solve();
 	void print_input() const;
 	void print_results() const;
+	void run();
 };
 
 template<class Number>
@@ -100,7 +104,7 @@ void MonteCarloIntegration<Number>::set_parameters()
 {
 	lower_limit = -1 * pi / 2.0;
 	upper_limit = pi / 2.0;
-	intervals = 1e6;
+	intervals = 1e9;
 	step_size = (upper_limit - lower_limit)/ intervals;
 }
 
@@ -117,7 +121,7 @@ void MonteCarloIntegration<Number>::solve()
 	tot_points = 0;
 	in_points = 0;
 	srand(static_cast<unsigned int>(time(0)));
-	#pragma omp parallel for
+	#pragma omp parallel for reduction (+:sum)
 	for(uint i = 0; i < intervals; ++i)
 	{
 		random_xvalue = random_gen_x.get_random_value();
@@ -145,6 +149,16 @@ void MonteCarloIntegration<Number>::solve()
 }
 
 template<class Number>
+void MonteCarloIntegration<Number>::run()
+{
+	max_min();
+	print_input();
+	srand(static_cast<unsigned int>(time(0)));
+	solve();
+	print_results();
+}
+
+template<class Number>
 void MonteCarloIntegration<Number>::print_input() const
 {
 	std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
@@ -165,6 +179,14 @@ template<class Number>
 void MonteCarloIntegration<Number>::print_results() const
 {
 	std::cout << "\t\t\t OUTPUT PARAMETERS" << std::endl;
+	#pragma omp parallel
+	{
+		int thread_id = omp_get_thread_num();
+		if(thread_id == 0)
+		{
+			std::cout << "Number of processors : " << omp_get_num_threads() << std::endl;
+		}
+	}
 	std::cout << "Minimum function value : " << minimum_value << std::endl;
 	std::cout << "Maximum function value : " << maximum_value << std::endl;
 	std::cout << "Number of points inside the curve and above xaxis : " << in_points << std::endl;

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/include
 
-CXX_FLAGS =  -pg -std=gnu++11
+CXX_FLAGS = -pg -pg -std=gnu++11
 

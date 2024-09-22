@@ -4,6 +4,8 @@
 #include "monte_carlo_method.h"
 #include "random_number_generator.h"
 
+double pi = 3.1415926535898;
+
 int main(int argc, char ** argv)
 {
 	// Check if the user provided the input file directory
@@ -16,23 +18,16 @@ int main(int argc, char ** argv)
 	/*std::string input_dir = argv[1];*/
 	/*std::string input_file = input_dir;*/
 
-	/*MonteCarloInt::MonteCarloIntegration<double> integrator;*/
-	/*TrapezoidalInt::TrapezoidalIntegration<double> integrator_t;*/
-	/*integrator.read_from_json(input_file);*/
-	/*integrator_t.set_parameters();*/
-	/*integrator_t.print_input();*/
-	/*srand(static_cast<unsigned int>(time(0)));*/
-	/*integrator_t.solve();*/
-	/*integrator_t.print_results();*/
 
-	MonteCarloInt::MonteCarloIntegration<double> integrator_m;
-	/*integrator.read_from_json(input_file);*/
-	integrator_m.set_parameters();
-	integrator_m.max_min();
-	integrator_m.print_input();
-	srand(static_cast<unsigned int>(time(0)));
-	integrator_m.solve();
-	integrator_m.print_results();
+	double x_min = -pi/2.0;
+	double x_max = pi/2.0;
+	int steps = 1e2;
+
+	TrapezoidalInt::TrapezoidalIntegration<double> integrator_t(x_min, x_max, steps);
+	integrator_t.run();
+
+	MonteCarloInt::MonteCarloIntegration<double> integrator_m(x_min, x_max, steps);
+	integrator_m.run();
 
 	return 0;
 }
