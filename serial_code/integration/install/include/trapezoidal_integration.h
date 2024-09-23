@@ -125,6 +125,7 @@ void TrapezoidalIntegration<Number>::print_results() const
 {
 	std::cout << "\t\t\t OUTPUT PARAMETERS" << std::endl;
 	std::cout << "Integral value : " << sum << std::endl;
+	std::cout << "Error : " << std::abs(sum-2.0) << std::endl; 
 }
 } // end of naemspace TrapezoidalInt
 #endif // TRAPEZOIDAL_INTEGRATION_H

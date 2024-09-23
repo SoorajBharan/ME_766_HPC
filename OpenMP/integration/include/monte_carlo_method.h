@@ -7,7 +7,8 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "enum_types.h"
-#include "random_number_generator.h"
+/*#include "random_number_generator.h"*/
+#include <random>
 #include <omp.h>
 
 using json = nlohmann::json;
@@ -111,43 +112,84 @@ void MonteCarloIntegration<Number>::set_parameters()
 /*
  *	sum = \frac{h}{2} \left( f(x_0) + f(x_n) + 2*\sum_{i=1}^{n-1} f(x_i) \right)
  */
-template<class Number>
-void MonteCarloIntegration<Number>::solve()
-{
-	Number random_xvalue,random_yvalue,temp;
-	RandomNum::RandomNumberGenerator<Number> random_gen_x(lower_limit, upper_limit);
-	RandomNum::RandomNumberGenerator<Number> random_gen_y(minimum_value, maximum_value);
-	Number tot_sum = (maximum_value - minimum_value) * (upper_limit - lower_limit);
-	tot_points = 0;
-	in_points = 0;
-	srand(static_cast<unsigned int>(time(0)));
-	#pragma omp parallel for reduction (+:sum)
-	for(uint i = 0; i < intervals; ++i)
-	{
-		random_xvalue = random_gen_x.get_random_value();
-		random_yvalue = random_gen_y.get_random_value();
+/*template<class Number>*/
+/*void MonteCarloIntegration<Number>::solve()*/
+/*{*/
+/*	Number random_xvalue,random_yvalue,temp;*/
+/*	RandomNum::RandomNumberGenerator<Number> random_gen_x(lower_limit, upper_limit);*/
+/*	RandomNum::RandomNumberGenerator<Number> random_gen_y(minimum_value, maximum_value);*/
+/*	Number tot_sum = (maximum_value - minimum_value) * (upper_limit - lower_limit);*/
+/*	tot_points = 0;*/
+/*	in_points = 0;*/
+/*	srand(static_cast<unsigned int>(time(0)));*/
+/*	#pragma omp parallel for reduction (+:sum)*/
+/*	for(uint i = 0; i < intervals; ++i)*/
+/*	{*/
+/*		random_xvalue = random_gen_x.get_random_value();*/
+/*		random_yvalue = random_gen_y.get_random_value();*/
 
      /*std::cout << "Random x : " << random_xvalue << std::endl;*/
      /*std::cout << "Random y : " << random_yvalue << std::endl;*/
 
-		temp = value_function(random_xvalue);
-		if(temp >= 0)
-		{
-			if((random_yvalue <= temp) && (random_yvalue >= 0))
-			{in_points++;}
-		}
-		else
-	{
-			if((random_yvalue >= temp) && (random_yvalue < 0))
-			{in_points--;}
-		}
+/*		temp = value_function(random_xvalue);*/
+/*		if(temp >= 0)*/
+/*		{*/
+/*			if((random_yvalue <= temp) && (random_yvalue >= 0))*/
+/*			{in_points++;}*/
+/*		}*/
+/*		else*/
+/*	{*/
+/*			if((random_yvalue >= temp) && (random_yvalue < 0))*/
+/*			{in_points--;}*/
+/*		}*/
+/**/
+/*		tot_points++;*/
+/**/
+/*	}*/
+/*	sum = tot_sum * in_points / tot_points;	*/
+/*}*/
+template<class Number>
+void MonteCarloIntegration<Number>::solve() {
+    Number random_xvalue, random_yvalue, temp;
+    Number tot_sum = (maximum_value - minimum_value) * (upper_limit - lower_limit);
+    
+    // Initialize total points and inside points for each thread
+    int total_in_points = 0;
+    int total_tot_points = 0;
 
-		tot_points++;
+    #pragma omp parallel 
+    {
+        // Each thread gets its own RNG
+        std::mt19937 rng(omp_get_thread_num() + time(0)); // Unique seed for each thread
+        std::uniform_real_distribution<Number> dist_x(lower_limit, upper_limit);
+        std::uniform_real_distribution<Number> dist_y(minimum_value, maximum_value);
 
-	}
-	sum = tot_sum * in_points / tot_points;	
+        int local_in_points = 0;
+        int local_tot_points = 0;
+
+        #pragma omp for
+        for(uint i = 0; i < intervals; ++i) {
+            random_xvalue = dist_x(rng);
+            random_yvalue = dist_y(rng);
+
+            temp = value_function(random_xvalue);
+            local_tot_points++;
+
+            if ((temp >= 0 && random_yvalue <= temp && random_yvalue >= 0) ||
+                (temp < 0 && random_yvalue >= temp && random_yvalue < 0)) {
+                local_in_points++;
+            }
+        }
+
+        // Combine local counts into the global totals
+        #pragma omp atomic
+        total_in_points += local_in_points;
+        #pragma omp atomic
+        total_tot_points += local_tot_points;
+    }
+
+    sum = tot_sum * total_in_points / total_tot_points;
 }
-
 template<class Number>
 void MonteCarloIntegration<Number>::run()
 {
@@ -192,6 +234,7 @@ void MonteCarloIntegration<Number>::print_results() const
 	std::cout << "Number of points inside the curve and above xaxis : " << in_points << std::endl;
 	std::cout << "Total number of points : " << tot_points << std::endl;
 	std::cout << "Integral value : " << sum << std::endl;
+	std::cout << "Error : " << std::abs(sum - 2.0) << std::endl;
 }
 } // end of namespace MonteCarloInt
 

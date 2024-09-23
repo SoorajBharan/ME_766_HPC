@@ -11,12 +11,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include/main.cpp" "CMakeFiles/integration_omp.dir/include/main.cpp.o" "gcc" "CMakeFiles/integration_omp.dir/include/main.cpp.o.d"
   )
 
-# Targets to which this target links which contain Fortran sources.
-set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
-  )
-
-# Targets to which this target links which contain Fortran sources.
-set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

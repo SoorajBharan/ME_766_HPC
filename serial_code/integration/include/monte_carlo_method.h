@@ -183,6 +183,7 @@ void MonteCarloIntegration<Number>::print_results() const
 	std::cout << "Number of points inside the curve and above xaxis : " << in_points << std::endl;
 	std::cout << "Total number of points : " << tot_points << std::endl;
 	std::cout << "Integral value : " << sum << std::endl;
+	std::cout << "Error : " << std::abs(sum - 2.0) << std::endl;
 }
 } // end of namespace MonteCarloInt
 
