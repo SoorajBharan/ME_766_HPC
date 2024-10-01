@@ -25,7 +25,7 @@ private:
 	Number upper_limit;
 	Number lower_limit;
 	Number sum;
-	int intervals;
+	long int intervals;
 	Number step_size;
 
 public:

@@ -21,7 +21,7 @@ int main(int argc, char ** argv)
 
 	double x_min = -pi/2.0;
 	double x_max = pi/2.0;
-	int steps = 1e8;
+	long int steps = 1e8;
 
 	/*TrapezoidalInt::TrapezoidalIntegration<double> integrator_t(x_min, x_max, steps);*/
 	/*integrator_t.run();*/

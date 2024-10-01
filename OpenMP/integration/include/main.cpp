@@ -22,8 +22,8 @@ int main(int argc, char ** argv)
 	/*std::string input_file = input_dir;*/
 
 
-	double x_min = -pi/2.0;
-	double x_max = pi/2.0;
+	double x_min = 0.0;
+	double x_max = pi * 2.0;
 	int steps = 1e7;
 
 	/*TrapezoidalInt::TrapezoidalIntegration<double> integrator_t(x_min, x_max, steps);*/

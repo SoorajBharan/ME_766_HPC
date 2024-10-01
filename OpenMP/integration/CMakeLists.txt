@@ -45,6 +45,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
 # Enable installation
 install(TARGETS ${PROJECT_NAME}
 	RUNTIME DESTINATION bin)
+# Find all header files in the include directory
+file(GLOB HEADER_FILES include/*.h)
 
-# Optionally, install headers (if needed)
-install(FILES include/trapezoidal_integration.h DESTINATION include)
+# Install all header files
+install(FILES ${HEADER_FILES} DESTINATION include)

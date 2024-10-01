@@ -59,7 +59,12 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES "/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include/trapezoidal_integration.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES
+    "/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include/enum_types.h"
+    "/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include/monte_carlo_method.h"
+    "/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include/random_number_generator.h"
+    "/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/include/trapezoidal_integration.h"
+    )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

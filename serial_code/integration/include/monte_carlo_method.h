@@ -7,7 +7,8 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "enum_types.h"
-#include "random_number_generator.h"
+/*#include "random_number_generator.h"*/
+#include <random>
 
 using json = nlohmann::json;
 
@@ -26,7 +27,7 @@ private:
 	Number upper_limit;
 	Number lower_limit;
 	Number sum;
-	int intervals;
+	long int intervals;
 	Number step_size;
 	Number minimum_value, maximum_value;
 	int in_points,tot_points;
@@ -114,19 +115,19 @@ template<class Number>
 void MonteCarloIntegration<Number>::solve()
 {
 	Number random_xvalue,random_yvalue,temp;
-	RandomNum::RandomNumberGenerator<Number> random_gen_x(lower_limit, upper_limit);
-	RandomNum::RandomNumberGenerator<Number> random_gen_y(minimum_value, maximum_value);
+
+	std::mt19937 rng(time(0));
+	std::uniform_real_distribution<Number> dist_x(lower_limit, upper_limit);
+	std::uniform_real_distribution<Number> dist_y(minimum_value, maximum_value);
+
 	Number tot_sum = (maximum_value - minimum_value) * (upper_limit - lower_limit);
 	tot_points = 0;
 	in_points = 0;
 	srand(static_cast<unsigned int>(time(0)));
 	for(uint i = 0; i < intervals; ++i)
 	{
-		random_xvalue = random_gen_x.get_random_value();
-		random_yvalue = random_gen_y.get_random_value();
-
-     /*std::cout << "Random x : " << random_xvalue << std::endl;*/
-     /*std::cout << "Random y : " << random_yvalue << std::endl;*/
+		random_xvalue = dist_x(rng);
+		random_yvalue = dist_y(rng);
 
 		temp = value_function(random_xvalue);
 		if(temp >= 0)
