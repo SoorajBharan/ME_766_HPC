@@ -1,0 +1,21 @@
+digraph {
+	graph [fontname=Arial, nodesep=0.125, ranksep=0.25];
+	node [fontcolor=white, fontname=Arial, height=0, shape=box, style=filled, width=0];
+	edge [fontname=Arial];
+	1 [color="#ff0000", fontcolor="#ffffff", fontsize="10.00", label="main\n100.00%\n(0.00%)"];
+	1 -> 2 [arrowsize="0.98", color="#f92a01", fontcolor="#f92a01", fontsize="10.00", label="95.87%\n1×", labeldistance="3.83", penwidth="3.83"];
+	1 -> 6 [arrowsize="0.35", color="#0d1e78", fontcolor="#0d1e78", fontsize="10.00", label="4.13%\n2×", labeldistance="0.50", penwidth="0.50"];
+	2 [color="#f92a01", fontcolor="#ffffff", fontsize="10.00", label="MatOperators::MatrixOperators<double>::mat_x_mat(std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >&, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >&, std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >&)\n95.87%\n(34.70%)\n1×"];
+	2 -> 3 [arrowsize="0.51", color="#0c958f", fontcolor="#0c958f", fontsize="10.00", label="26.16%\n3001000000×", labeldistance="1.05", penwidth="1.05"];
+	2 -> 4 [arrowsize="0.48", color="#0c8991", fontcolor="#0c8991", fontsize="10.00", label="23.44%\n3002001000×", labeldistance="0.94", penwidth="0.94"];
+	2 -> 5 [arrowsize="0.35", color="#0d4081", fontcolor="#0d4081", fontsize="10.00", label="11.03%\n1001001001×", labeldistance="0.50", penwidth="0.50"];
+	2 -> 8 [arrowsize="0.35", color="#0d0f73", fontcolor="#0d0f73", fontsize="10.00", label="0.53%\n1001000×", labeldistance="0.50", penwidth="0.50"];
+	3 [color="#0c958f", fontcolor="#ffffff", fontsize="10.00", label="std::vector<double, std::allocator<double> >::operator[](unsigned long)\n26.18%\n(26.18%)\n3003000000×"];
+	4 [color="#0c8991", fontcolor="#ffffff", fontsize="10.00", label="std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::operator[](unsigned long)\n23.47%\n(23.47%)\n3006003000×"];
+	5 [color="#0d4081", fontcolor="#ffffff", fontsize="10.00", label="std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >::size() const\n11.03%\n(11.03%)\n1001003003×"];
+	6 [color="#0d1e78", fontcolor="#ffffff", fontsize="10.00", label="MatOperators::MatrixOperators<double>::fill_matrix_random(std::vector<std::vector<double, std::allocator<double> >, std::allocator<std::vector<double, std::allocator<double> > > >&, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double, double)\n4.13%\n(0.20%)\n2×"];
+	6 -> 7 [arrowsize="0.35", color="#0d1776", fontcolor="#0d1776", fontsize="10.00", label="2.51%\n2×", labeldistance="0.50", penwidth="0.50"];
+	6 -> 8 [arrowsize="0.35", color="#0d1174", fontcolor="#0d1174", fontsize="10.00", label="1.07%\n2002000×", labeldistance="0.50", penwidth="0.50"];
+	7 [color="#0d1776", fontcolor="#ffffff", fontsize="10.00", label="std::uniform_real_distribution<double>::uniform_real_distribution(double, double)\n2.51%\n(2.51%)\n2×"];
+	8 [color="#0d1375", fontcolor="#ffffff", fontsize="10.00", label="std::vector<double, std::allocator<double> >::size() const\n1.60%\n(1.60%)\n3006000×"];
+}

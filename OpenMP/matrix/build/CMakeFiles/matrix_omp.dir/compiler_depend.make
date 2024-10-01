@@ -186,7 +186,6 @@ CMakeFiles/matrix_omp.dir/include/main.cpp.o: /home/bharan/computation/solvers/M
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include/matrix_operators.h \
   /usr/include/c++/12/random \
   /usr/include/c++/12/cmath \
   /usr/include/math.h \
@@ -205,8 +204,11 @@ CMakeFiles/matrix_omp.dir/include/main.cpp.o: /home/bharan/computation/solvers/M
   /usr/include/x86_64-linux-gnu/c++/12/bits/opt_random.h \
   /usr/include/c++/12/bits/random.tcc \
   /usr/include/c++/12/numeric \
-  /usr/include/c++/12/bits/stl_numeric.h
+  /usr/include/c++/12/bits/stl_numeric.h \
+  /home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include/matrix_operators.h
 
+
+/home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include/matrix_operators.h:
 
 /usr/include/c++/12/limits:
 
@@ -219,8 +221,6 @@ CMakeFiles/matrix_omp.dir/include/main.cpp.o: /home/bharan/computation/solvers/M
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
 /usr/include/c++/12/random:
-
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include/matrix_operators.h:
 
 /usr/include/c++/12/bits/stl_bvector.h:
 

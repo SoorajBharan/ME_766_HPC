@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include
 
-CXX_FLAGS = -fopenmp -std=gnu++11
+CXX_FLAGS =  -pg -fopenmp -std=gnu++11
 
