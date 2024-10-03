@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include <type_traits>
+#include <chrono>
 
 namespace MatOperators {
 template<typename Number>
@@ -59,6 +60,7 @@ MatrixOperators<Number>::mat_x_mat(std::vector<std::vector<Number>> & mat_1,
 				   std::vector<std::vector<Number>> & mat_2,
 				   std::vector<std::vector<Number>> & mat_3)
 {
+	auto start_time = std::chrono::high_resolution_clock::now();
 	uint mat_1_row = mat_1.size();
 	uint mat_2_col = mat_2[0].size();
 	uint mat_1_col = mat_1[0].size();
@@ -69,7 +71,13 @@ MatrixOperators<Number>::mat_x_mat(std::vector<std::vector<Number>> & mat_1,
 		mat_3[i][j]=static_cast<Number>(0.0);
 			for(uint k=0; k<mat_1_col; ++k){
 				mat_3[i][j]+=mat_1[i][k]*mat_2[k][j];
-				std::cout << "Percentage completed : " << ++percent_completed*100/problem_size << '\r' << std::flush;
+				/*std::cout << "Percentage completed : " << ++percent_completed*100/problem_size << '\r' << std::flush;*/
+				auto current_time = std::chrono::high_resolution_clock::now();
+				std::chrono::duration<double> elapse_time = current_time - start_time;
+				double total_time = problem_size * elapse_time.count() / percent_completed;
+				double remaining_time = total_time - elapse_time.count();
+
+				std::cout << "Percent completed: "<< ++percent_completed*100/problem_size <<", Estimated time till completion : " << remaining_time << '\r' << std::flush;
 			}
 		}
 	}
