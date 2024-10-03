@@ -1,5 +1,5 @@
 CMakeFiles/matrix_omp.dir/include/main.cpp.o: \
- /home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include/main.cpp \
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/matrix/include/main.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/12/iostream \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -165,4 +165,4 @@ CMakeFiles/matrix_omp.dir/include/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/12/bits/opt_random.h \
  /usr/include/c++/12/bits/random.tcc /usr/include/c++/12/numeric \
  /usr/include/c++/12/bits/stl_numeric.h \
- /home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/include/matrix_operators.h
+ /home/bharan/computation/solvers/ME_766_HPC/serial_code/matrix/include/matrix_operators.h
