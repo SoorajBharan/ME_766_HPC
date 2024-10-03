@@ -1,2 +1,0 @@
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/install/bin/matrix_omp
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/matrix/install/include/matrix_operators.h

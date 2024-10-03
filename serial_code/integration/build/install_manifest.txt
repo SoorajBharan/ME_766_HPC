@@ -1,2 +1,0 @@
-/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/install/bin/integration
-/home/bharan/computation/solvers/ME_766_HPC/serial_code/integration/install/include/trapezoidal_integration.h

@@ -1,7 +1,0 @@
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/integration_omp.dir
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/edit_cache.dir
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/rebuild_cache.dir
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/list_install_components.dir
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/install.dir
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/install/local.dir
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/build/CMakeFiles/install/strip.dir

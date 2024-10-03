@@ -1,5 +1,0 @@
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/install/bin/integration_omp
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/install/include/enum_types.h
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/install/include/monte_carlo_method.h
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/install/include/random_number_generator.h
-/home/bharan/computation/solvers/ME_766_HPC/OpenMP/integration/install/include/trapezoidal_integration.h

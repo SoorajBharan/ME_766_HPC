@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/integration_omp.dir/include/main.cpp.o -o bin/integration_omp  /usr/lib/gcc/x86_64-linux-gnu/12/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
