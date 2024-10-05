@@ -1,33 +1,40 @@
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <random>
+#include <chrono>
+#include <omp.h>
 
 #include "matrix_operators.h"
 
 int main(int argc, char **argv)
 {
-	if(argc != 2) {
-		std::cerr << "Usage : " << argv[0] << " <size_of_matrix> " << std::endl;
+	auto start_time = std::chrono::high_resolution_clock::now();
+	if(argc != 3) {
+		std::cerr << "Usage : " << argv[0] << "<number_of_threads" << " <size_of_matrix> " << std::endl;
 		return 1;
 	}
-	uint mat_size = atoi(argv[1]);
+	int num_threads = atoi(argv[1]);
+	uint mat_size = atoi(argv[2]);
 
+	omp_set_num_threads(num_threads);
+
+	double minimum = 0.0;
+	double maximum = 100.0;
+
+	MatOperators::MatrixOperators<double> mat_operators;
 	std::vector<std::vector<double>> A(mat_size, std::vector<double>(mat_size));
 	std::vector<std::vector<double>> B(mat_size, std::vector<double>(mat_size));
 	std::vector<std::vector<double>> C(mat_size, std::vector<double>(mat_size));
-	MatOperators::MatrixOperators<double> mat_operators;
 
 	std::mt19937 mt1(time(0));
 	std::mt19937 mt2(time(0)+1);
+	mat_operators.fill_matrix_random(A, mt1, minimum, maximum);
+	mat_operators.fill_matrix_random(B, mt2, minimum, maximum);
+	mat_operators.mat_x_mat(A, B, C);
 
-	mat_operators.fill_matrix_random(A, mt1, 0.0, 10);
-	mat_operators.fill_matrix_random(B, mt2, 0.0, 10);
-	mat_operators.mat_mat_mult(A, B, C);
-	/*std::cout << "Matrix A : " << std::endl;*/
-	/*mat_operators.print_matrix(A);*/
-	/*std::cout << "Matrix B : " << std::endl;*/
-	/*mat_operators.print_matrix(B);*/
-	/*std::cout << "Matrix C : " << std::endl;*/
-	/*mat_operators.print_matrix(C);*/
+	auto end_time = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapse_time = end_time - start_time;
+	std::cout << "Wall time = " << elapse_time.count();
 	return 0;
 }

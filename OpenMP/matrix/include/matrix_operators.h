@@ -2,29 +2,35 @@
 #define MATRIX_OPERATORS_H
 
 #include <iostream>
+#include <ostream>
 #include <random>
 #include <type_traits>
+#include <chrono>
+#include "omp.h"
 
 namespace MatOperators {
 template<typename Number>
 class MatrixOperators
 {
 public:
-	void fill_matrix_random(std::vector<std::vector<Number>> & mat,
+	typedef std::vector<std::vector<Number>> vectorised_matrix;
+	void fill_matrix_random(vectorised_matrix & mat,
 				std::mt19937 mt1,
 			 	Number minimum,
 			  	Number maximum);
 
-	void mat_mat_mult(std::vector<std::vector<Number>> & mat_1,
-			std::vector<std::vector<Number>> & mat_2,
-			std::vector<std::vector<Number>> & mat_3);
+	void mat_x_mat(vectorised_matrix & mat_1,
+			vectorised_matrix & mat_2,
+			vectorised_matrix & mat_3);
 
-	void print_matrix(std::vector<std::vector<Number>> & mat);
+	void print_matrix(vectorised_matrix & mat);
+
+	std::vector<std::vector<Number>> transpose(vectorised_matrix &);
 };
 
 template<typename Number>
 void
-MatrixOperators<Number>::fill_matrix_random(std::vector<std::vector<Number>> & mat,
+MatrixOperators<Number>::fill_matrix_random(vectorised_matrix & mat,
 					    std::mt19937 mt1,
 					    Number minimum,
 					    Number maximum)
@@ -50,31 +56,63 @@ MatrixOperators<Number>::fill_matrix_random(std::vector<std::vector<Number>> & m
 		exit(0);
 	}
 
+	std::cout << "Matrix initialised with random values" << std::endl;
 		
 }
 
 template<typename Number>
-void
-MatrixOperators<Number>::mat_mat_mult(std::vector<std::vector<Number>> & mat_1,
-				   std::vector<std::vector<Number>> & mat_2,
-				   std::vector<std::vector<Number>> & mat_3)
+std::vector<std::vector<Number>>
+MatrixOperators<Number>::transpose(vectorised_matrix & mat)
 {
-	uint rows = mat_1.size();
-	uint cols = mat_2[0].size();
-	uint dummy = mat_2.size();
+	uint rows = mat.size();
+	uint cols = mat[0].size();
+	vectorised_matrix mat_t(cols, std::vector<Number>(rows));
 	for(uint i=0; i<rows; ++i){
-		for (uint j=0; j<cols; ++j) {
-		mat_3[i][j]=static_cast<Number>(0.0);
-			for(uint k=0; k<dummy; ++k){
-				mat_3[i][j]+=mat_1[i][k]*mat_2[k][j];
-			}
+		for(uint j=0; j<cols; ++j){
+			mat_t[i][j]=mat[j][i];
 		}
 	}
+	std::cout << "Matrix transpose calculated" << std::endl;
+	return mat_t;
 }
 
 template<typename Number>
 void
-MatrixOperators<Number>::print_matrix(std::vector<std::vector<Number>> & mat)
+MatrixOperators<Number>::mat_x_mat(vectorised_matrix & mat_1,
+				   vectorised_matrix & mat_2,
+				   vectorised_matrix & mat_3)
+{
+	uint mat_1_row = mat_1.size();
+	uint mat_2_col = mat_2[0].size();
+	uint mat_1_col = mat_1[0].size();
+	double problem_size = mat_1_row * mat_1_col * mat_2_col;
+	double percent_completed = 0.0;
+	// Initialize C
+	for (uint i = 0; i < mat_1_row; ++i) {
+		std::fill(mat_3[i].begin(), mat_3[i].end(), static_cast<Number>(0));
+	}
+		std::cout << "Resultant matrix initialised with zeros" << std::endl;
+	vectorised_matrix mat_2_T = transpose(mat_2);
+	uint i,j,k;
+	std::cout << "Matrix Multiplication initialised " << std::endl;
+
+	#pragma omp parallel for private(i, j, k) shared(mat_1, mat_2, mat_3) reduction(+:percent_completed)
+	for(i=0; i<mat_1_row; ++i){
+		for (j=0; j<mat_2_col; ++j) {
+			for(k=0; k<mat_1_col; ++k){
+				mat_3[i][j]+=mat_1[i][k]*mat_2[j][k];
+				percent_completed++;
+			}
+		}
+	}
+	std::cout << " \n Final count for k : " << percent_completed << std::endl;
+	std::cout << " problem size : " << problem_size << std::endl;
+	std::cout << "Final counts \n i = " << i << "; j = " << j << "; k = " << k << std::endl;
+}
+
+template<typename Number>
+void
+MatrixOperators<Number>::print_matrix(vectorised_matrix & mat)
 {
 	for(uint i=0; i<mat.size(); ++i){
 		std::cout << std::endl;
