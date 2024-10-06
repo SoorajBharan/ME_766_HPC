@@ -2,15 +2,18 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set cmake variable
-set(PROJECT_NAME matrix_omp)
+set(PROJECT_NAME matrix_mpi)
 
 # set project name
 project(${PROJECT_NAME})
 
+# Enable the generation of compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 #find MPI
-find_package(MPI REQUIRED)
+find_package(MPI)
 # Add the MPI include directories
-include_directories(${MPI_INCLUDE_PATH})
+include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -35,7 +38,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 if(MPI_CXX_FOUND)
-	target_link_libraries(${PROJECT_NAME} PUBLIC ${MPI_LIBRARIES})
+	target_link_libraries(${PROJECT_NAME} PUBLIC ${MPI_CXX_LIBRARIES})
 endif()
 
 # Specify include directories
