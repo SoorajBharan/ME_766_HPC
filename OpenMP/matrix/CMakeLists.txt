@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set cmake variable
-set(PROJECT_NAME matrix_serial)
+set(PROJECT_NAME matrix_omp)
 
 # set project name
 project(${PROJECT_NAME})

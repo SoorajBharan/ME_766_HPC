@@ -1,6 +1,7 @@
 #ifndef MATRIX_OPERATORS_H
 #define MATRIX_OPERATORS_H
 
+#include <algorithm>
 #include <iostream>
 #include <ostream>
 #include <random>
@@ -13,19 +14,28 @@ template<typename Number>
 class MatrixOperators
 {
 public:
-	typedef std::vector<std::vector<Number>> vectorised_matrix;
+	typedef std::vector<Number> vectorised_matrix;
 	void fill_matrix_random(vectorised_matrix & mat,
 				std::mt19937 mt1,
 			 	Number minimum,
-			  	Number maximum);
+			  	Number maximum,
+				int rows,
+				int cols);
 
-	void mat_x_mat(vectorised_matrix & mat_1,
+	void mat_mult(vectorised_matrix & mat_1,
 			vectorised_matrix & mat_2,
-			vectorised_matrix & mat_3);
+			vectorised_matrix & mat_3,
+			int rows_1,
+			int cols_2,
+			int rows_2);
 
-	void print_matrix(vectorised_matrix & mat);
+	void print_matrix(vectorised_matrix & mat,
+			int rows,
+			int cols);
 
-	std::vector<std::vector<Number>> transpose(vectorised_matrix &);
+	std::vector<Number> transpose(vectorised_matrix &,
+					int rows,
+					int cols);
 };
 
 template<typename Number>
@@ -33,21 +43,23 @@ void
 MatrixOperators<Number>::fill_matrix_random(vectorised_matrix & mat,
 					    std::mt19937 mt1,
 					    Number minimum,
-					    Number maximum)
+					    Number maximum,
+					    int rows,
+					    int cols)
 {
 	if constexpr (std::is_floating_point<Number>::value){
 		std::uniform_real_distribution<Number> uni_distribution(minimum, maximum);
-		for(uint i=0; i < mat.size(); ++i) {
-			for(uint j=0; j<mat[i].size(); ++j){
-				mat[i][j] = uni_distribution(mt1);
+		for(uint i=0; i < rows; ++i) {
+			for(uint j=0; j<cols; ++j){
+				mat[i*cols+j] = uni_distribution(mt1);
 			}
 		}
 	}
 	else if constexpr (std::is_integral<Number>::value) {
 		std::uniform_int_distribution<Number> uni_distribution(minimum, maximum);
-		for(uint i=0; i < mat.size(); ++i) {
-			for(uint j=0; j<mat[i].size(); ++j){
-				mat[i][j] = uni_distribution(mt1);
+		for(uint i=0; i < rows; ++i) {
+			for(uint j=0; j<cols; ++j){
+				mat[i*cols+j] = uni_distribution(mt1);
 			}
 		}
 	}
@@ -61,15 +73,15 @@ MatrixOperators<Number>::fill_matrix_random(vectorised_matrix & mat,
 }
 
 template<typename Number>
-std::vector<std::vector<Number>>
-MatrixOperators<Number>::transpose(vectorised_matrix & mat)
+std::vector<Number>
+MatrixOperators<Number>::transpose(vectorised_matrix & mat,
+				   int rows,
+				   int cols)
 {
-	uint rows = mat.size();
-	uint cols = mat[0].size();
-	vectorised_matrix mat_t(cols, std::vector<Number>(rows));
+	vectorised_matrix mat_t(cols * rows);
 	for(uint i=0; i<rows; ++i){
 		for(uint j=0; j<cols; ++j){
-			mat_t[i][j]=mat[j][i];
+			mat_t[j*rows+i]=mat[i*cols+j];
 		}
 	}
 	std::cout << "Matrix transpose calculated" << std::endl;
@@ -78,29 +90,27 @@ MatrixOperators<Number>::transpose(vectorised_matrix & mat)
 
 template<typename Number>
 void
-MatrixOperators<Number>::mat_x_mat(vectorised_matrix & mat_1,
+MatrixOperators<Number>::mat_mult(vectorised_matrix & mat_1,
 				   vectorised_matrix & mat_2,
-				   vectorised_matrix & mat_3)
+				   vectorised_matrix & mat_3,
+				  int rows_1,
+				  int cols_2,
+				  int rows_2)
 {
-	uint mat_1_row = mat_1.size();
-	uint mat_2_col = mat_2[0].size();
-	uint mat_1_col = mat_1[0].size();
-	double problem_size = mat_1_row * mat_1_col * mat_2_col;
+	double problem_size = rows_1 * cols_2 * rows_2;
 	double percent_completed = 0.0;
 	// Initialize C
-	for (uint i = 0; i < mat_1_row; ++i) {
-		std::fill(mat_3[i].begin(), mat_3[i].end(), static_cast<Number>(0));
-	}
-		std::cout << "Resultant matrix initialised with zeros" << std::endl;
-	vectorised_matrix mat_2_T = transpose(mat_2);
+	std::fill(mat_3.begin(), mat_3.end(), 0.0);
+	std::cout << "Resultant matrix initialised with zeros" << std::endl;
+	vectorised_matrix mat_2_T = transpose(mat_2, rows_2, cols_2);
 	uint i,j,k;
 	std::cout << "Matrix Multiplication initialised " << std::endl;
 
-	#pragma omp parallel for private(i, j, k) shared(mat_1, mat_2, mat_3) reduction(+:percent_completed)
-	for(i=0; i<mat_1_row; ++i){
-		for (j=0; j<mat_2_col; ++j) {
-			for(k=0; k<mat_1_col; ++k){
-				mat_3[i][j]+=mat_1[i][k]*mat_2[j][k];
+	#pragma omp parallel for private(i, j, k) shared(mat_1, mat_2_T, mat_3) reduction(+:percent_completed)
+	for(i=0; i<rows_1; ++i){
+		for (j=0; j<cols_2; ++j) {
+			for(k=0; k<rows_2; ++k){
+				mat_3[i*cols_2 + j] += mat_1[i*rows_2 + k] * mat_2_T[j*cols_2 + k];
 				percent_completed++;
 			}
 		}
@@ -112,12 +122,14 @@ MatrixOperators<Number>::mat_x_mat(vectorised_matrix & mat_1,
 
 template<typename Number>
 void
-MatrixOperators<Number>::print_matrix(vectorised_matrix & mat)
+MatrixOperators<Number>::print_matrix(vectorised_matrix & mat,
+				      int rows,
+				      int cols)
 {
-	for(uint i=0; i<mat.size(); ++i){
+	for(uint i=0; i<rows; ++i){
 		std::cout << std::endl;
-		for(uint j=0; j<mat[i].size(); ++j) {
-			std::cout << '\t' << mat[i][j];
+		for(uint j=0; j<cols; ++j) {
+			std::cout << '\t' << mat[i*cols+j];
 		}
 	}
 	std::cout << std::endl;

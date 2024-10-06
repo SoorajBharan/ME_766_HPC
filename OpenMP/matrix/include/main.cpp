@@ -23,15 +23,15 @@ int main(int argc, char **argv)
 	double maximum = 100.0;
 
 	MatOperators::MatrixOperators<double> mat_operators;
-	std::vector<std::vector<double>> A(mat_size, std::vector<double>(mat_size));
-	std::vector<std::vector<double>> B(mat_size, std::vector<double>(mat_size));
-	std::vector<std::vector<double>> C(mat_size, std::vector<double>(mat_size));
+	std::vector<double> A(mat_size * mat_size);
+	std::vector<double> B(mat_size * mat_size);
+	std::vector<double> C(mat_size * mat_size);
 
 	std::mt19937 mt1(time(0));
 	std::mt19937 mt2(time(0)+1);
-	mat_operators.fill_matrix_random(A, mt1, minimum, maximum);
-	mat_operators.fill_matrix_random(B, mt2, minimum, maximum);
-	mat_operators.mat_x_mat(A, B, C);
+	mat_operators.fill_matrix_random(A, mt1, minimum, maximum, mat_size, mat_size);
+	mat_operators.fill_matrix_random(B, mt2, minimum, maximum, mat_size, mat_size);
+	mat_operators.mat_mult(A, B, C, mat_size, mat_size, mat_size);
 
 	auto end_time = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> elapse_time = end_time - start_time;
