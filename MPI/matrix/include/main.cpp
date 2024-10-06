@@ -8,12 +8,13 @@
 
 int main(int argc, char **argv)
 {
-	auto start_time = std::chrono::high_resolution_clock::now();
+	/*auto start_time = std::chrono::high_resolution_clock::now();*/
 	if(argc != 2) {
 		std::cerr << "Usage : " << argv[0] << " <size_of_matrix> " << std::endl;
 		return 1;
 	}
 	MPI_Init(&argc, &argv);
+	double start_time = MPI_Wtime();
 
 	const int mat_size = atoi(argv[1]);
 	double minimum = 0.0;
@@ -79,27 +80,29 @@ int main(int argc, char **argv)
 			MPI_COMM_WORLD);
 
 	// Gather the local matrices into the global matrix at the root
-	MPI_Gatherv(local_A.data(),
-			local_A.size(),
-			MPI_DOUBLE,
-			global_A.data(),
-			recvcounts.data(),
-			displs.data(),
-			MPI_DOUBLE,
-			root,
-			MPI_COMM_WORLD);
+	/*MPI_Gatherv(local_A.data(),*/
+	/*		local_A.size(),*/
+	/*		MPI_DOUBLE,*/
+	/*		global_A.data(),*/
+	/*		recvcounts.data(),*/
+	/*		displs.data(),*/
+	/*		MPI_DOUBLE,*/
+	/*		root,*/
+	/*		MPI_COMM_WORLD);*/
+	double end_time = MPI_Wtick();
+	double local_wall_time = end_time - start_time;
+	double global_wall_time;
+	MPI_Reduce(&local_wall_time, &global_wall_time, 1, MPI_DOUBLE, MPI_SUM, root, MPI_COMM_WORLD);
 	if(rank==0){
-		std::cout << "\nMatrix A " << std::endl;
-		mat_operators.print_vector_matrix(global_A, mat_size, mat_size);
-		std::cout << "\nMatrix B " << std::endl;
-		mat_operators.print_vector_matrix(global_B, mat_size, mat_size);
-		std::cout << "\nMatrix B transpose " << std::endl;
-		mat_operators.print_vector_matrix(global_B_transpose, mat_size, mat_size);
-		std::cout << "\nMatrix C " << std::endl;
-		mat_operators.print_vector_matrix(global_C, mat_size, mat_size);
-		auto end_time = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> elapse_time = end_time - start_time;
-		std::cout << "\nWall time = " << elapse_time.count();
+		/*std::cout << "\nMatrix A " << std::endl;*/
+		/*mat_operators.print_vector_matrix(global_A, mat_size, mat_size);*/
+		/*std::cout << "\nMatrix B " << std::endl;*/
+		/*mat_operators.print_vector_matrix(global_B, mat_size, mat_size);*/
+		/*std::cout << "\nMatrix B transpose " << std::endl;*/
+		/*mat_operators.print_vector_matrix(global_B_transpose, mat_size, mat_size);*/
+		/*std::cout << "\nMatrix C " << std::endl;*/
+		/*mat_operators.print_vector_matrix(global_C, mat_size, mat_size);*/
+		std::cout << "\nWall time = " << global_wall_time << std::endl;
 	}
 	MPI_Finalize();
 	return 0;
