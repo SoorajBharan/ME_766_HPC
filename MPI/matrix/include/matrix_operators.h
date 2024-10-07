@@ -52,6 +52,8 @@ MatrixOperators<Number>::fill_vectorised_matrix_random(std::vector<Number> & vec
 					    int rows,
 					    int cols)
 {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	if constexpr (std::is_floating_point<Number>::value){
 		std::uniform_real_distribution<Number> uni_distribution(minimum, maximum);
 		for(uint i=0; i < rows; ++i) {
@@ -72,8 +74,9 @@ MatrixOperators<Number>::fill_vectorised_matrix_random(std::vector<Number> & vec
 		std::cerr << "Invalid datatype provided" << std::endl;
 		exit(0);
 	}
-
+	if(rank==0){
 	std::cout << "Vector initialised with random values" << std::endl;
+	}
 		
 }
 template<typename Number>
@@ -82,13 +85,17 @@ MatrixOperators<Number>::transpose(std::vector<Number> & mat,
 				   int rows,
 				   int cols)
 {
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	std::vector<Number> mat_t(rows * cols);
 	for(uint i=0; i<rows; ++i){
 		for(uint j=0; j<cols; ++j){
 			mat_t[j*rows+i]=mat[i*cols+j];
 		}
 	}
+	if(rank==0){
 	std::cout << "Matrix transpose calculated" << std::endl;
+	}
 	return mat_t;
 }
 
@@ -100,10 +107,12 @@ MatrixOperators<Number>::mat_mult(std::vector<Number> & mat_1,
 				  int rows_1,
 				  int cols_2,
 				  int rows_2)
-{
+{	// Initialize C
+	std::fill(mat_3.begin(), mat_3.end(), 0.0);
+	std::cout << "Resultant matrix initialised with zeros" << std::endl;
+	std::cout << "Matrix Multiplication initialised " << std::endl;
 	for (int i=0; i<rows_1; ++i) {
 		for(int j=0; j<cols_2; ++j){
-			mat_3[i*cols_2 + j] = 0;
 			for(int k=0; k<rows_2; ++k){
 				mat_3[i*cols_2 + j] += mat_1[i*rows_2 + k] * mat_2[j*cols_2 + k];
 			}
@@ -122,9 +131,16 @@ MatrixOperators<Number>::mat_mult_transpose(std::vector<Number> & mat_1,
 {
 	long int local_k_count=0;
 	long int global_k=0;
+	// Initialize C
+	std::fill(mat_3.begin(), mat_3.end(), 0.0);
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	if(rank==0){
+	std::cout << "Resultant matrix initialised with zeros" << std::endl;
+	std::cout << "Matrix Multiplication initialised " << std::endl;
+	}
 	for (int i=0; i<rows_1; ++i) {
 		for(int j=0; j<cols_2; ++j){
-			mat_3[i*cols_2 + j] = 0.0;
 			for(int k=0; k<rows_2; ++k){
 				mat_3[i*cols_2 + j] += mat_1[i*rows_2 + k] * mat_2[j*rows_2 + k];
 				local_k_count++;
@@ -132,8 +148,10 @@ MatrixOperators<Number>::mat_mult_transpose(std::vector<Number> & mat_1,
 		}	
 	}
 	MPI_Reduce(&local_k_count, &global_k, 1, MPI_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-	std::cout << "Matrix multiplication completed" << std::endl;
-	std::cout << "Final k count : " << global_k << std::endl;
+	if (rank==0) {
+		std::cout << "Matrix multiplication completed" << std::endl;
+		std::cout << "Final k count : " << global_k << std::endl;
+	}
 }
 
 template<typename Number>
